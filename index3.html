@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <form action="">
+        <label for="Film">Nazov filmu:</label>
+        <input type="text" id="Film">
+        <label for="Rok">Rok vyroby:</label>
+        <input type="text" id="Rok">
+        <label for="Herci">Obsadenie:</label>
+        <input type="text" id="Herci">
+        
+        <button onclick = "vlozitFilm(event)">Pridaj Film:</button>
+
+        <button onclick = "odstranitPosledny(poradovecislo)">Odstranit posledny</button>
+
+        <button onclick = "vymazatZoznam()">Vymazat zoznam</button>
+    </form >
+        <div id="zobrazenie"></div>
+    
+    
+    <script>
+        let filmy = JSON.parse(localStorage.getItem("filmy"));
+
+        if(filmy === null){
+            filmy = [];
+        }
+        let nazovFilmu = document.getElementById("Film");
+        let Rokvyroby = document.getElementById("Rok");
+        let Obsadenie = document.getElementById("Herci");
+
+        let zobrazenie = document.getElementById("zobrazenie");
+
+        for(let i = 0; i < filmy.length; i++){
+            let f = document.createElement("f");
+
+            f.innerText = "Nazov filmu: " + filmy[i].nazovFilmu + ", Rok vyroby: " + filmy[i].Rokvyroby + ", Obsadenie: " + filmy[i].Obsadenie;
+
+            zobrazenie.append(f); 
+        }
+
+        function vlozitFilm(event){
+
+            event.preventDefault();
+
+           
+            filmy.push({Film:nazovFilmu.value, Rok:Rokvyroby.value, Herci:Obsadenie.value});
+
+            localStorage.setItem("filmy", JSON.stringify(filmy));
+            console.log(filmy);
+           
+            let f = document.createElement("f");
+
+            f.innerText = "Nazov filmu: " + nazovFilmu.value + ",  Rok vyroby: " + Rokvyroby.value + ", Obsadenie: " + Obsadenie.value + "";
+
+            zobrazenie.append(f);
+            console.log();
+            console.log(filmy);
+
+        }
+        function odstranitPosledny(poradovecislo){
+
+            filmy.splice(poradovecislo,1);
+            zobrazenie.childNodes[poradovecislo].remove();
+            localStorage.setItem(filmy,JSON.stringify(filmy));
+            console.log;
+            console.log(filmy);
+
+        }
+
+        function vymazatZoznam(){
+            filmy = [];
+            console.log(filmy);
+            document.getElementById("zobrazenie").innerHTML = "";
+            localStorage.setItem("filmy", JSON.stringify(filmy));
+        }
+        console.log();
+        console.log(filmy);
+
+
+    </script>
+   
+</body>
+</html>
